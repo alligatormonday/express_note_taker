@@ -14,8 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
-
-
 // HTML ROUTES
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "/public/index.html"));
@@ -35,7 +33,14 @@ app.get("/api/notes", function (req, res) {
     
 });
 
+// Need POST route
+// (this is where I add the UUID)
+// read db.json and turn into an array
+// push new item from the front into the array
+// write to db.json
 
+// Need DELETE function
+// (think filter function)
 
 // Starts the server to begin listening
 // =============================================================
