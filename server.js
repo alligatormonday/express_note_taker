@@ -52,8 +52,15 @@ app.post("/api/notes", function (req, res) {
     res.json(newNote);
 });
 
+// let = id
+
 // Need POST route
-// (this is where I add the UUID)
+// generate new Note
+// sort data by id
+// save data to json again
+// newNote.id = id++;
+
+// (UUID)
 // read db.json and turn into an array
 // push new item from the front into the array
 // write to db.json
