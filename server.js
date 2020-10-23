@@ -16,17 +16,17 @@ app.use(express.static('public'));
 
 // HTML ROUTES
 // =============================================================
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
-app.get("/notes", function (req, res) {
+app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
 // API ROUTES
 // =============================================================
-app.get("/api/notes", function (req, res) {
+app.get("/api/notes", function(req, res) {
     fs.readFile("./db/db.json", "utf8", function (err, data) {
         if (err) throw (err);
         let notes = JSON.parse(data)
@@ -36,18 +36,19 @@ app.get("/api/notes", function (req, res) {
 });
 
 // Create New Notes - takes in JSON input
-app.post("/api/notes", function (req, res) {
+app.post("/api/notes", function(req, res) {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
     var newNote = req.body;
-
-    // Using a RegEx Pattern to remove spaces from newCharacter
-    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
-
-    console.log(newNote);
-
-    characters.push(newNote);
+    // console.log(newNote);
+    fs.readFile("./db/db.json", "utf8", function(err, data) {
+        let existingNote = (JSON.parse(data));
+        existingNote.push(newNote);
+        console.log(existingNote);
+        fs.writeFile("./db/db.json", JSON.stringify(existingNote), "utf8", function(err){
+            console.log("Success!")
+        })
+    })
 
     res.json(newNote);
 });
