@@ -3,6 +3,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const UUID = require("uuid")
 
 // Sets up the Express App
 // =============================================================
@@ -41,6 +42,7 @@ app.post("/api/notes", function(req, res) {
     // This works because of our body parsing middleware
     var newNote = req.body;
     // console.log(newNote);
+    req.body.id = UUID.v1()
     fs.readFile("./db/db.json", "utf8", function(err, data) {
         let existingNote = (JSON.parse(data));
         existingNote.push(newNote);
@@ -68,6 +70,11 @@ app.post("/api/notes", function(req, res) {
 
 // Need DELETE function
 // (think filter function)
+
+// app.delete
+// remove from db.JSON
+// .filter
+// return whatever doesn't have the id you want to delete
 
 // Starts the server to begin listening
 // =============================================================
