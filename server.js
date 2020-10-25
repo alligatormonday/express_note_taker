@@ -28,7 +28,7 @@ app.get("/notes", function(req, res) {
 // API ROUTES
 // =============================================================
 app.get("/api/notes", function(req, res) {
-    fs.readFile("./db/db.json", "utf8", function (err, data) {
+    fs.readFile("./db/db.json", function (err, data) {
         if (err) throw (err);
         let notes = JSON.parse(data)
         return res.json(notes);
@@ -40,9 +40,9 @@ app.get("/api/notes", function(req, res) {
 app.post("/api/notes", function(req, res) {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
-    var newNote = req.body;
+    let newNote = req.body;
     // console.log(newNote);
-    req.body.id = UUID.v1()
+    newNote.id = UUID.v1();
     fs.readFile("./db/db.json", "utf8", function(err, data) {
         let existingNote = (JSON.parse(data));
         existingNote.push(newNote);
@@ -55,26 +55,29 @@ app.post("/api/notes", function(req, res) {
     res.json(newNote);
 });
 
-// let = id
+// Deletes notes - removes from db.json and re-writes to db.json
+app.delete("/api/notes/:id", function(req, res) {
+    const id = req.params.id
+    fs.readFile("./db/db.json",  function(err, data){
+        if (err) throw err; 
+        const goodData = JSON.parse(data)
+        const toWrite = goodData.filter(item => {
+            if(id !== item.id){
+                return item
+            }
+        })
+        fs.writeFile("./db/db.json", JSON.stringify(toWrite), "utf8", function(err){
+            if (err) throw err; 
+        })
+    })
+    res.send("winner winner chicken dinner")
 
-// Need POST route
-// generate new Note
-// sort data by id
-// save data to json again
-// newNote.id = id++;
+})
 
-// (UUID)
-// read db.json and turn into an array
-// push new item from the front into the array
-// write to db.json
-
-// Need DELETE function
-// (think filter function)
-
-// app.delete
-// remove from db.JSON
-// .filter
-// return whatever doesn't have the id you want to delete
+// WILDCARD ROUTE
+app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "/public/index.html"));
+});
 
 // Starts the server to begin listening
 // =============================================================
