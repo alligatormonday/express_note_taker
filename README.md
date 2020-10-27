@@ -6,6 +6,8 @@
 
 Video of demo: [express_note_taker_DEMO](https://drive.google.com/file/d/1KmUCjQcmxcep7xCNR3YFCkpd1T1AxpUM/view) 
 
+View deployed application here: [express_note_taker](https://limitless-springs-73140.herokuapp.com/notes)
+
 ![License](https://img.shields.io/badge/License-MIT-yellow) 
 ## 👤 Author: Joseph Jepson 
 
